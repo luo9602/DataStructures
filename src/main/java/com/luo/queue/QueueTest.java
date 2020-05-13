@@ -17,7 +17,8 @@ public class QueueTest {
      */
     @Test
     public void test1() {
-        ArrayQueue queue = new ArrayQueue(5);
+//        Queue queue = new ArrayQueue(3);
+        Queue queue = new CircleArrayQueue(3);
         Scanner scanner = new Scanner(System.in);
         char key = ' ';
         boolean flag = true;
@@ -58,6 +59,13 @@ public class QueueTest {
                 case 'h':
                     try {
                         System.out.println("队列头数据:" + queue.head());
+                    } catch (Exception e) {
+                        System.out.println(e.getMessage());
+                    }
+                    break;
+                case 't':
+                    try {
+                        System.out.println("队列尾数据:" + queue.tail());
                     } catch (Exception e) {
                         System.out.println(e.getMessage());
                     }
