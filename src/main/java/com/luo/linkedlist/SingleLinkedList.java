@@ -2,7 +2,6 @@ package com.luo.linkedlist;
 
 import org.junit.Test;
 
-import java.util.LinkedList;
 import java.util.Stack;
 
 /**
@@ -10,7 +9,7 @@ import java.util.Stack;
  * @date : 2020/5/13
  * @description : 单链表
  */
-public class SingleLinkedList {
+public class SingleLinkedList implements LinkedList<Node> {
 
     /**
      * 初始化头结点
@@ -27,6 +26,7 @@ public class SingleLinkedList {
      *
      * @return 头结点
      */
+    @Override
     public Node getHead() {
         return head;
     }
@@ -36,6 +36,7 @@ public class SingleLinkedList {
      *
      * @param node 结点
      */
+    @Override
     public void add(Node node) {
         // 从头结点开始遍历
         Node temp = head;
@@ -52,6 +53,7 @@ public class SingleLinkedList {
      *
      * @param node 结点
      */
+    @Override
     public void addByOrder(Node node) {
         // 根据待添加 node 的 no 找到添加位置的前一个结点
         // 从头结点开始遍历
@@ -89,6 +91,7 @@ public class SingleLinkedList {
      *
      * @param node 待修改的结点
      */
+    @Override
     public void update(Node node) {
         if (head.next == null || size() == 0) {
             throw new RuntimeException("list is empty");
@@ -117,6 +120,7 @@ public class SingleLinkedList {
      *
      * @param no 待删除的结点 no
      */
+    @Override
     public void delete(int no) {
         if (head.next == null || size() == 0) {
             throw new RuntimeException("list is empty");
@@ -146,6 +150,7 @@ public class SingleLinkedList {
      *
      * @return 结点的数组
      */
+    @Override
     public Node[] nodes() {
         if (head.next == null || size() == 0) {
             throw new RuntimeException("list is empty");
@@ -165,6 +170,7 @@ public class SingleLinkedList {
      *
      * @return 长度
      */
+    @Override
     public int size() {
         return size;
     }
