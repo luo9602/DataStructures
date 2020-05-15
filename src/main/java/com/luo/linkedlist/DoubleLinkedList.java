@@ -1,6 +1,8 @@
 package com.luo.linkedlist;
 
+import com.sun.javafx.binding.StringFormatter;
 import javafx.beans.binding.When;
+import jdk.nashorn.internal.objects.annotations.Where;
 
 /**
  * @author : Administrator
@@ -79,14 +81,66 @@ public class DoubleLinkedList implements LinkedList<DoubleNode> {
         }
     }
 
+    /**
+     * 修改
+     *
+     * @param node 待修改的结点
+     */
     @Override
     public void update(DoubleNode node) {
-
+        if (head.next == null) {
+            throw new RuntimeException("list empty");
+        }
+        DoubleNode temp = head.next;
+        boolean flag = false;
+        while (true) {
+            if (temp == null) {
+                break;
+            }
+            if (temp.no == node.no) {
+                flag = true;
+                break;
+            }
+            temp = temp.next;
+        }
+        if (flag) {
+            temp.val = node.val;
+        } else {
+            throw new RuntimeException(String.format("Node(%d) doesn't exist", node.no));
+        }
     }
 
+    /**
+     * 删除结点
+     *
+     * @param no 待删除的结点 no
+     */
     @Override
     public void delete(int no) {
-
+        if (head.next == null) {
+            throw new RuntimeException("list empty");
+        }
+        DoubleNode temp = head.next;
+        boolean flag = false;
+        while (true) {
+            if (temp == null) {
+                break;
+            }
+            if (temp.no == no) {
+                flag = true;
+                break;
+            }
+            temp = temp.next;
+        }
+        if (flag) {
+            if (temp.next != null) {
+                temp.next.pre = temp.pre;
+            }
+            temp.pre.next = temp.next;
+            size--;
+        } else {
+            throw new RuntimeException(String.format("Node(%d) doesn't exist", no));
+        }
     }
 
     /**
@@ -103,13 +157,12 @@ public class DoubleLinkedList implements LinkedList<DoubleNode> {
             nodes[index++] = temp;
             temp = temp.next;
         }
-
         return nodes;
     }
 
     @Override
     public int size() {
-        return 0;
+        return size;
     }
 
 }
