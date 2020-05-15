@@ -1,6 +1,9 @@
 package com.luo.linkedlist;
 
+import org.junit.Test;
+
 import java.util.LinkedList;
+import java.util.Stack;
 
 /**
  * @author : Administrator
@@ -164,6 +167,98 @@ public class SingleLinkedList {
      */
     public int size() {
         return size;
+    }
+
+    /**
+     * 获取有效结点的个数(不包含头结点)
+     *
+     * @param head 头结点
+     * @return 个数
+     */
+    public static int getLength(Node head) {
+        if (head.next == null) {
+            return 0;
+        }
+        int count = 0;
+        Node temp = head.next;
+        while (temp != null) {
+            count++;
+            temp = temp.next;
+        }
+        return count;
+    }
+
+    /**
+     * 查找单链表中的倒数第k个结点
+     *
+     * @param head  头结点
+     * @param index k
+     * @return 所查找的结点
+     */
+    public static Node findLastIndexNode(Node head, int index) {
+        if (head.next == null) {
+            return null;
+        }
+        int size = getLength(head);
+        if (index <= 0 || index > size) {
+            throw new RuntimeException("size illegal");
+        }
+        Node temp = head.next;
+        for (int i = 0; i < size - index; i++) {
+            temp = temp.next;
+        }
+        return temp;
+    }
+
+    /**
+     * 单链表的反转
+     *
+     * @param head 头结点
+     */
+    public static void reverse(Node head) {
+        if (head.next == null || head.next.next == null) {
+            return;
+        }
+        // 定义一个新的头结点
+        Node reverseHead = new Node(0, 0);
+        // 从头结点的下一个结点开始遍历
+        Node temp = head.next;
+        // 用来保存 temp 的 next 结点
+        Node next;
+        // 遍历原单链表, 将原链表的每一个结点取出, 并放在 reverseHead 后的第一个位置
+        while (temp != null) {
+            // 保存遍历结点的后一个结点
+            next = temp.next;
+            // 将原链表结点放在 reverseHead 后的第一个位置
+            // 相当于两个链表 head 后的所有结点相互交换
+            temp.next = reverseHead.next;
+            reverseHead.next = temp;
+            // 后移
+            temp = next;
+        }
+        head.next = reverseHead.next;
+    }
+
+    /**
+     * 逆序打印单链表 栈方式
+     *
+     * @param head 头结点
+     */
+    public static void reversePrint(Node head) {
+        if (head.next == null) {
+            return;
+        }
+        Stack<Node> stack = new Stack<>();
+        Node temp = head.next;
+        // 入栈
+        while (temp != null) {
+            stack.push(temp);
+            temp = temp.next;
+        }
+        // 出栈
+        while (stack.size() > 0) {
+            System.out.println(stack.pop());
+        }
     }
 
 }
