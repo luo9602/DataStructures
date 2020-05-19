@@ -18,9 +18,9 @@ public class Calculator {
         Stack numStack = new ArrayStack(10);
         Stack operStack = new ArrayStack(10);
         // 2. 通过index遍历表达式
-        int num1 = 0, num2 = 0, oper = 0, res = 0;
+        int num1, num2, oper, res;
         // 遍历到的字符
-        char ch = ' ';
+        char ch;
         // 存放多位数的字符串
         StringBuilder longNum = new StringBuilder();
         int index = 0;

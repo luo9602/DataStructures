@@ -28,7 +28,7 @@ public class ReversePolishNotationCalculator {
                 // pop两个数并运算
                 int num2 = Integer.parseInt(stack.pop());
                 int num1 = Integer.parseInt(stack.pop());
-                int res = 0;
+                int res;
                 switch (str) {
                     case "+":
                         res = num1 + num2;
