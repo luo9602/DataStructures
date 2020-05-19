@@ -59,4 +59,20 @@ public class StackTest {
         System.out.println("退出程序");
     }
 
+    @Test
+    public void test2() {
+        Calculator calculator = new Calculator();
+        int res = calculator.calculate("14+22/1-1");
+        System.out.println(res);
+    }
+
+    /**
+     * 逆波兰表达式计算
+     */
+    @Test
+    public void test3() {
+        int res = ReversePolishNotationCalculator.calculate("3 4 + 5 * 6 -");
+        System.out.println(res);
+    }
+
 }

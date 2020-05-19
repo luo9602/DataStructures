@@ -8,6 +8,13 @@ package com.luo.stack;
 public interface Stack {
 
     /**
+     * 查看栈顶数据
+     *
+     * @return 栈顶
+     */
+    int peek();
+
+    /**
      * 栈是否满
      *
      * @return 是否满

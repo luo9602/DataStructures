@@ -28,6 +28,19 @@ public class ArrayStack implements Stack {
     }
 
     /**
+     * 查看栈顶数据
+     *
+     * @return 栈顶
+     */
+    @Override
+    public int peek() {
+        if (isEmpty()) {
+            throw new RuntimeException("stack is empty");
+        }
+        return stack[top];
+    }
+
+    /**
      * 栈是否满
      *
      * @return 是否满

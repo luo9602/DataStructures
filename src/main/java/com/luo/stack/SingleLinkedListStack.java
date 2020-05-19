@@ -31,6 +31,19 @@ public class SingleLinkedListStack implements Stack {
         head = new Node(-1);
     }
 
+    /**
+     * 查看栈顶数据
+     *
+     * @return 栈顶
+     */
+    @Override
+    public int peek() {
+        if (isEmpty()) {
+            throw new RuntimeException("stack is empty");
+        }
+        return head.next.val;
+    }
+
     @Override
     public boolean isFull() {
         return top == maxSize - 1;
