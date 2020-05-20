@@ -3,7 +3,9 @@ package com.luo.stack;
 import org.junit.Test;
 
 import java.util.Arrays;
+import java.util.List;
 import java.util.Scanner;
+import java.util.spi.ResourceBundleControlProvider;
 
 /**
  * @author : Administrator
@@ -71,8 +73,18 @@ public class StackTest {
      */
     @Test
     public void test3() {
-        int res = ReversePolishNotationCalculator.calculate("3 4 + 5 * 6 -");
+        int res = ReversePolishNotationCalculator.calSuffixExpression("3 4 + 5 * 6 -");
         System.out.println(res);
+    }
+
+    /**
+     * 中缀表达式转list
+     */
+    @Test
+    public void test4() {
+        List<String> list =
+                ReversePolishNotationCalculator.toInfixExpressionList("211*3-(23+1231)/12312313+(526456-685985)-2122232");
+        list.forEach(System.out::print);
     }
 
 }
