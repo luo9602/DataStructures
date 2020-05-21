@@ -1,7 +1,8 @@
 package com.luo.stack;
 
-import java.util.ArrayList;
-import java.util.List;
+import org.w3c.dom.ls.LSException;
+
+import java.util.*;
 import java.util.Stack;
 
 /**
@@ -11,10 +12,132 @@ import java.util.Stack;
  */
 public class ReversePolishNotationCalculator {
 
-    public static List<String> parseSuffixExpressionList(List<String> infixList) {
-        // 定义两栈
+    /**
+     * 计算 (先将中缀表达式转为后缀表达式再计算)
+     *
+     * @param infixExpression 中缀表达式
+     * @return 结果
+     */
+    public static int calculate(String infixExpression) {
+        return cal(inFixExpression2SuffixList(infixExpression));
+    }
 
-        return null;
+    /**
+     * 计算
+     *
+     * @param suffixExpression 后缀表达式字符串
+     * @return 结果
+     */
+    @Deprecated
+    public static int calSuffixExpression(String suffixExpression) {
+        return cal(Arrays.asList(suffixExpression.split(" ")));
+    }
+
+    /**
+     * 计算方法
+     *
+     * @param suffixList 逆波兰表达式list
+     * @return 结果
+     */
+    private static int cal(List<String> suffixList) {
+        Stack<String> stack = new Stack<>();
+        for (String str : suffixList) {
+            // 数字
+            if (str.matches("\\d+")) {
+                stack.push(str);
+            }
+            // 运算符
+            else {
+                int top = Integer.parseInt(stack.pop());
+                int secondTop = Integer.parseInt(stack.pop());
+                int res;
+                switch (str) {
+                    case "+":
+                        res = secondTop + top;
+                        break;
+                    case "-":
+                        res = secondTop - top;
+                        break;
+                    case "*":
+                        res = secondTop * top;
+                        break;
+                    case "/":
+                        res = secondTop / top;
+                        break;
+                    default:
+                        throw new RuntimeException("oper error");
+                }
+                // 运算结构入栈
+                stack.push(String.valueOf(res));
+            }
+        }
+        // 返回结果
+        return Integer.parseInt(stack.pop());
+    }
+
+    /**
+     * 中缀表达式字符串转逆波兰表达式list
+     *
+     * @param infixExpression 中缀表达式字符串
+     * @return 逆波兰表达式list
+     */
+    public static List<String> inFixExpression2SuffixList(String infixExpression) {
+        return parseSuffixExpressionList(toInfixExpressionList(infixExpression));
+    }
+
+    /**
+     * 中缀表达式list转逆波兰表达式list
+     *
+     * @param infixList 中缀表达式list
+     * @return 逆波兰表达式list
+     */
+    public static List<String> parseSuffixExpressionList(List<String> infixList) {
+        String leftParenthesis = "(";
+        String rightParenthesis = ")";
+        // 定义两个栈, 运算符栈s1 和 存储中间结果栈s2
+        Stack<String> s1 = new Stack<>();
+        Stack<String> s2 = new Stack<>();
+        // 遍历中缀表达式list
+        for (String str : infixList) {
+            // 数字直接入 s2栈
+            if (str.matches("\\d+")) {
+                s2.push(str);
+            }
+            // 左括号
+            else if (leftParenthesis.equals(str)) {
+                s1.push(str);
+            }
+            // 右括号
+            else if (rightParenthesis.equals(str)) {
+                // 将 s1栈 中的数据一次弹出入 s2栈, 直到遇到左括号为止
+                // 再弹出 s1 中的这个左括号, 消除这一对括号
+                while (!leftParenthesis.equals(s1.peek())) {
+                    s2.push(s1.pop());
+                }
+                // 弹出左括号
+                s1.pop();
+            }
+            // 其他运算符
+            else {
+                // 1. 如果 s1栈为空, 或栈顶运算符为左括号, 则直接将此运算符入栈
+                // 2. 否则, 若优先级比 s1栈顶运算符的高, 也将运算符入 s1栈
+                // 3. 否则, 将 s1栈顶的运算符弹出并入 s2栈, 再次重复步骤（1）与 s1中新的栈顶运算符相比较
+                if (!s1.isEmpty() && !leftParenthesis.equals(s1.peek())) {
+                    if (Operation.getPriority(str) <= Operation.getPriority(s1.peek())) {
+                        while (!s1.isEmpty() && !leftParenthesis.equals(s1.peek()) && Operation.getPriority(s1.peek()) >= Operation.getPriority(str)) {
+                            s2.push(s1.pop());
+                        }
+                    }
+                }
+                //还需要将item压入栈
+                s1.push(str);
+            }
+        }
+        // 将 s1栈 中剩余的运算符依次弹出并入 s2栈
+        while (!s1.isEmpty()) {
+            s2.push(s1.pop());
+        }
+        return new ArrayList<>(s2);
     }
 
     /**
@@ -53,51 +176,6 @@ public class ReversePolishNotationCalculator {
             }
         }
         return infixList;
-    }
-
-    /**
-     * 计算
-     *
-     * @param suffixExpression 后缀表达式字符串
-     * @return 结果
-     */
-    @Deprecated
-    public static int calSuffixExpression(String suffixExpression) {
-        String[] strArr = suffixExpression.split(" ");
-        Stack<String> stack = new Stack<>();
-        for (String str : strArr) {
-            // 匹配多位数
-            if (str.matches("\\d+")) {
-                stack.push(str);
-            }
-            // 运算符
-            else {
-                // pop两个数并运算
-                int num2 = Integer.parseInt(stack.pop());
-                int num1 = Integer.parseInt(stack.pop());
-                int res;
-                switch (str) {
-                    case "+":
-                        res = num1 + num2;
-                        break;
-                    case "-":
-                        res = num1 - num2;
-                        break;
-                    case "*":
-                        res = num1 * num2;
-                        break;
-                    case "/":
-                        res = num1 / num2;
-                        break;
-                    default:
-                        throw new RuntimeException("oper error");
-                }
-                // 运算结构入栈
-                stack.push(String.valueOf(res));
-            }
-        }
-        // 返回结果
-        return Integer.parseInt(stack.pop());
     }
 
 }

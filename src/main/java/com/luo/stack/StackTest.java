@@ -87,4 +87,23 @@ public class StackTest {
         list.forEach(System.out::print);
     }
 
+    /**
+     * 中缀表达式转后缀表达式
+     */
+    @Test
+    public void test5() {
+        List<String> list =
+                ReversePolishNotationCalculator.inFixExpression2SuffixList("1+((2+3)*4)-5");
+        list.forEach(System.out::print);
+        System.out.println();
+    }
+
+    /**
+     * 中缀表达式计算
+     */
+    @Test
+    public void test6() {
+        System.out.println(ReversePolishNotationCalculator.calculate("1+((2+3)*4)-5"));
+    }
+
 }
