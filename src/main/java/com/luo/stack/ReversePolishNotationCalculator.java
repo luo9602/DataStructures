@@ -13,7 +13,7 @@ import java.util.Stack;
 public class ReversePolishNotationCalculator {
 
     /**
-     * 计算 (先将中缀表达式转为后缀表达式再计算)
+     * 计算中缀表达式 (先将中缀表达式转为逆波兰表达式再计算)
      *
      * @param infixExpression 中缀表达式
      * @return 结果
@@ -23,9 +23,9 @@ public class ReversePolishNotationCalculator {
     }
 
     /**
-     * 计算
+     * 计算逆波兰表达式
      *
-     * @param suffixExpression 后缀表达式字符串
+     * @param suffixExpression 逆波兰表达式字符串
      * @return 结果
      */
     @Deprecated
